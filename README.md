@@ -9,6 +9,8 @@ sleep at night. One statically-linked binary. No Kubernetes, no Redis, no sales
 call.
 
 [![CI](https://github.com/routsom/portcullis/actions/workflows/ci.yml/badge.svg)](https://github.com/routsom/portcullis/actions/workflows/ci.yml)
+[![Docs](https://github.com/routsom/portcullis/actions/workflows/docs.yml/badge.svg)](https://routsom.github.io/portcullis/)
+[![Documentation](https://img.shields.io/badge/docs-live-F59E0B.svg)](https://routsom.github.io/portcullis/)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Rust edition 2024](https://img.shields.io/badge/rust-edition%202024-orange.svg)](rust-toolchain.toml)
 [![Added latency p99 ≤ 5ms](https://img.shields.io/badge/added%20latency-p99%20%E2%89%A4%205ms-brightgreen.svg)](#performance)
@@ -140,8 +142,8 @@ just doctor       # build + run doctor against the example config
 
 ## Documentation
 
-- 📖 [Documentation site](docs/book) (mdBook) — getting started, architecture,
-  security, operations, extending
+- 📖 **[Documentation site](https://routsom.github.io/portcullis/)** (mdBook) —
+  getting started, architecture, security, operations, extending
 - 🗺️ [Roadmap & milestones](ROADMAP.md)
 - 🔒 [Threat model](docs/threat-model.md) · [Prior art](docs/prior-art.md)
 - 🧾 [Architecture Decision Records](docs/adr)
