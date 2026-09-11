@@ -37,6 +37,8 @@ pub fn enter_namespaces(_network: NetworkMode) -> io::Result<()> {
 
 /// Map the sandbox uid/gid to the host's effective ids via the user namespace,
 /// enabling rootless isolation with no real privilege.
+// uid/gid/euid/egid are the conventional syscall-layer names.
+#[allow(clippy::similar_names)]
 pub fn map_ids(uid: u32, gid: u32) -> io::Result<()> {
     let euid = nix::unistd::geteuid().as_raw();
     let egid = nix::unistd::getegid().as_raw();
