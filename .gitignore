@@ -1,0 +1,11 @@
+/target
+**/*.rs.bk
+*.pdb
+.DS_Store
+
+# mdBook build output
+/docs/book/book/
+
+# Runtime artifacts
+*.jsonl
+*.tmp

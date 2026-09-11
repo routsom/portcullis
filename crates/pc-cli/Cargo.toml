@@ -1,0 +1,35 @@
+[package]
+name = "pc-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "The portcullis binary: serve, doctor, config."
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "portcullis"
+path = "src/main.rs"
+
+[dependencies]
+pc-core = { workspace = true }
+pc-edge = { workspace = true }
+pc-proto-mcp = { workspace = true }
+pc-catalog = { workspace = true }
+pc-proto-openapi = { workspace = true }
+pc-facade = { workspace = true }
+anyhow = { workspace = true }
+clap = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_ignored = { workspace = true }
+toml = { workspace = true }
+tokio = { workspace = true }
+reqwest = { workspace = true }
+httpdate = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }

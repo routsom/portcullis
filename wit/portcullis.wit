@@ -1,0 +1,87 @@
+// portcullis plugin ABI.
+//
+// Extensions are WebAssembly Components implementing this interface, not
+// dynamically-loaded native code (CLAUDE.md §7). This file is a public API
+// surface and follows the semver contract in §8: a plugin built against a 1.x
+// WIT keeps working across 1.x core releases. Breaking it is a major-version
+// event and an ADR.
+//
+// Status (M6): this interface is frozen as the 1.x plugin ABI. The WASM
+// Component *host* runtime (wasmtime-based) that loads and calls these plugins
+// is a follow-up; the ABI is fixed first so third parties can build against a
+// published, stable contract.
+
+package portcullis:plugin@1.0.0;
+
+/// Protocol-neutral domain types shared by all hooks. These mirror `pc-core`
+/// and deliberately name no wire protocol.
+interface types {
+    /// Opaque principal identifier (OIDC/mTLS/PAT/SPIFFE all resolve to this).
+    record principal {
+        id: string,
+        kind: string,
+    }
+
+    /// A fully-identified authorization subject/object.
+    record invocation {
+        tenant: string,
+        /// Delegation chain, origin first, current principal last.
+        chain: list<principal>,
+        capability: string,
+        /// Hash of the argument *shape* (never values).
+        arg-shape: string,
+    }
+
+    /// The outcome of an authorization decision.
+    variant decision {
+        allow,
+        deny(string),
+    }
+
+    /// A tool result flowing back from an upstream, as untrusted data.
+    record tool-result {
+        capability: string,
+        /// Raw JSON payload; a transform may rewrite it, and every rewrite is
+        /// logged by the host.
+        payload-json: string,
+    }
+}
+
+/// Host capabilities a plugin may import. Deliberately minimal: no filesystem,
+/// no network, no process — plugins decide and transform, they do not act.
+interface host {
+    use types.{invocation};
+
+    /// Structured, level-tagged logging into the host's audit/trace pipeline.
+    log: func(level: string, message: string);
+
+    /// Emit a named metric counter increment, attributed to the invocation's
+    /// tenant by the host.
+    incr-metric: func(name: string, invocation: invocation);
+}
+
+/// A policy plugin: decides whether an invocation is allowed. Pure with respect
+/// to host state — it may only observe the invocation and call `host` imports.
+interface policy {
+    use types.{invocation, decision};
+
+    /// Evaluate one invocation. Must be deterministic given the same inputs.
+    evaluate: func(inv: invocation) -> decision;
+}
+
+/// A transform plugin: may rewrite a tool result. Any change is logged by the
+/// host (Directive: transform only when a rule says to, and always log it).
+interface transform {
+    use types.{tool-result};
+
+    /// Return the (possibly rewritten) result. Returning the input unchanged is
+    /// the identity transform.
+    on-tool-result: func(result: tool-result) -> tool-result;
+}
+
+/// The world a policy/transform extension implements.
+world plugin {
+    import host;
+    export policy;
+    export transform;
+}

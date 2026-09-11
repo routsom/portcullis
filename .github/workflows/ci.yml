@@ -1,0 +1,51 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: "-D warnings"
+
+jobs:
+  # Full gate on Linux: this is the platform where the pc-runner sandbox
+  # actually compiles and is exercised, so it is the source of truth for the
+  # Prime-Directive isolation guarantees (ADR-0005).
+  check-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Install just and cargo-deny
+        run: |
+          cargo install just --locked
+          cargo install cargo-deny --locked
+      - name: just check
+        run: just check
+      - name: Build the Linux sandbox backend
+        run: cargo build -p pc-runner
+      - name: Benchmark within budget
+        run: just bench
+
+  # Portability gate: the cross-platform crates and the fail-closed runner must
+  # build and pass on macOS too (the runner reports Unsupported here).
+  check-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Install just
+        run: cargo install just --locked
+      - name: fmt + clippy + test
+        run: |
+          cargo fmt --all -- --check
+          cargo clippy --workspace --all-targets -- -D warnings
+          cargo test --workspace

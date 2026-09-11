@@ -1,0 +1,109 @@
+# portcullis example configuration.
+#
+# This file is validated in CI so it never rots (CLAUDE.md §9). Defaults are the
+# safe choice: auth is always on, origins are closed, telemetry is local-only,
+# and secrets are read from environment variables - never written here.
+#
+#   portcullis serve   --config examples/portcullis.toml
+#   portcullis doctor  --config examples/portcullis.toml
+#   portcullis config explain --config examples/portcullis.toml
+
+# ---------------------------------------------------------------------------
+# Listeners. At least one must be enabled. There is no `--no-auth`.
+# ---------------------------------------------------------------------------
+[server.http]
+bind = "127.0.0.1:8080"
+path = "/mcp"
+# DNS-rebinding defence (§5 row #4): a browser request whose Origin is not in
+# this list is rejected. Empty = reject all cross-origin browser requests.
+allowed_origins = ["http://127.0.0.1:8080"]
+# Permitted Host header values. If omitted, only `bind` is allowed.
+allowed_hosts = ["127.0.0.1:8080", "localhost:8080"]
+
+# Optional stdio listener. Bound to an explicitly configured principal, since a
+# local pipe carries no per-message credential (this is a binding, not a bypass).
+# [server.stdio]
+# principal = "local-operator"
+# tenant = "default"
+# upstream = "echo"
+
+# ---------------------------------------------------------------------------
+# Authentication. Each principal's token VALUE is read from the named env var;
+# the secret is never stored in config (Directive #2).
+# ---------------------------------------------------------------------------
+[[auth.tokens]]
+token_env = "PORTCULLIS_TOKEN_AGENT"
+principal = "agent-1"
+tenant = "default"
+upstream = "echo"
+# RBAC roles and ABAC attributes for policy evaluation (M2).
+roles = ["reader"]
+attributes = { env = "prod" }
+
+# ---------------------------------------------------------------------------
+# Stateless session signing. Share this key across nodes for active-active
+# scaling (§5 row #9). If omitted, an ephemeral key is used (single node only).
+# ---------------------------------------------------------------------------
+[session]
+secret_env = "PORTCULLIS_SESSION_SECRET"
+
+# ---------------------------------------------------------------------------
+# Upstreams. In M0 the edge connects to upstream MCP servers over HTTP only;
+# it cannot spawn a stdio server (Directive #1, ADR-0003).
+# ---------------------------------------------------------------------------
+[[upstream]]
+name = "echo"
+url = "http://127.0.0.1:9090/mcp"
+
+# ---------------------------------------------------------------------------
+# Authorization policy (M2). Ordered, fail-closed RBAC/ABAC rules. Absent means
+# allow-all once authenticated. First matching rule wins; no match = deny.
+# ---------------------------------------------------------------------------
+[policy]
+cache_capacity = 4096
+
+[[policy.rules]]
+id = "deny-destructive"
+effect = "deny"
+reason = "destructive tools require an approved change ticket"
+matcher = { capabilities = ["*.delete", "*.destroy"] }
+
+[[policy.rules]]
+id = "readers-read-only"
+effect = "allow"
+reason = "readers may call read-only tools"
+matcher = { roles_any = ["reader", "writer"], capabilities = ["*.read", "*.list", "tools/list", "initialize"] }
+
+[[policy.rules]]
+id = "writers-write"
+effect = "allow"
+matcher = { roles_any = ["writer"] }
+
+# ---------------------------------------------------------------------------
+# Rate limiting (M2): per (tenant, principal, capability) token bucket.
+# ---------------------------------------------------------------------------
+[rate_limit]
+capacity = 50          # burst
+refill_per_sec = 10    # sustained
+
+# ---------------------------------------------------------------------------
+# Circuit breaking (M2): per upstream.
+# ---------------------------------------------------------------------------
+[circuit_breaker]
+failure_threshold = 5
+cooldown_ms = 5000
+
+# ---------------------------------------------------------------------------
+# Audit (M2): append-only, hash-chained JSONL. Laptop-friendly relative path by
+# default; use an absolute path in production. Set `secret_env` to HMAC-sign the
+# chain for tamper-evidence beyond the hash links.
+# ---------------------------------------------------------------------------
+[audit]
+path = "portcullis-audit.jsonl"
+# secret_env = "PORTCULLIS_AUDIT_SECRET"
+
+# ---------------------------------------------------------------------------
+# Observability. On by default, local export only (Directive #8).
+# ---------------------------------------------------------------------------
+[telemetry]
+log_level = "info"

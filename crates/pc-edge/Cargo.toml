@@ -1,0 +1,46 @@
+[package]
+name = "pc-edge"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "portcullis edge: transports, auth, stateless sessions, and passthrough routing. Holds no upstream credentials and cannot spawn a process (Directive #1)."
+
+[lints]
+workspace = true
+
+[dependencies]
+pc-core = { workspace = true }
+pc-proto-mcp = { workspace = true }
+pc-policy = { workspace = true }
+pc-audit = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tokio = { workspace = true }
+axum = { workspace = true }
+reqwest = { workspace = true }
+bytes = { workspace = true }
+futures = { workspace = true }
+hmac = { workspace = true }
+sha2 = { workspace = true }
+subtle = { workspace = true }
+hex = { workspace = true }
+getrandom = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "time", "net"] }
+toml = { workspace = true }
+reqwest = { workspace = true }
+axum = { workspace = true }
+serde_json = { workspace = true }
+pc-core = { workspace = true }
+pc-policy = { workspace = true }
+
+[features]
+# Debug/introspection endpoints are compiled only under this feature and are
+# excluded from release builds and published artifacts (CLAUDE.md §5 row #4).
+dev-endpoints = []

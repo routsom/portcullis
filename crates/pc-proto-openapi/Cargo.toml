@@ -1,0 +1,22 @@
+[package]
+name = "pc-proto-openapi"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "OpenAPI 3 -> capability adapter. Translates operations into an invocable capability table at load time, not per request."
+
+[lints]
+workspace = true
+
+[dependencies]
+pc-core = { workspace = true }
+pc-catalog = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }

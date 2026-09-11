@@ -1,0 +1,25 @@
+[package]
+name = "pc-bench-latency"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "Reference latency benchmark: gateway-added overhead vs a direct echo upstream (CLAUDE.md §6, §15)."
+publish = false
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "pc-bench-latency"
+path = "src/main.rs"
+
+[dependencies]
+pc-edge = { workspace = true }
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "net", "time", "sync"] }
+axum = { workspace = true }
+reqwest = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }

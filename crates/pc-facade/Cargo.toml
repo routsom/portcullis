@@ -1,0 +1,20 @@
+[package]
+name = "pc-facade"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "Capability facade: gateway.find / find_and_invoke returning fully-invocable schemas in one round trip, with token accounting."
+
+[lints]
+workspace = true
+
+[dependencies]
+pc-catalog = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }

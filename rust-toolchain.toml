@@ -1,0 +1,5 @@
+# Pinned deliberately (CLAUDE.md §4). Bump in its own commit with a CHANGELOG
+# note. Edition 2024 requires rustc >= 1.85.
+[toolchain]
+channel = "stable"
+components = ["rustfmt", "clippy"]

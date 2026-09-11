@@ -1,0 +1,63 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="portcullis - lower the gate on untrusted tools">
+  <defs>
+    <linearGradient id="s-bg" x1="0" y1="0" x2="1280" y2="640" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#101B2E"/>
+    </linearGradient>
+    <radialGradient id="s-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 250) scale(520)">
+      <stop stop-color="#F59E0B" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#F59E0B" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="s-gold" x1="0" y1="0" x2="0" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FCD34D"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="s-word" x1="0" y1="330" x2="0" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#CBD5E1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#s-bg)"/>
+  <rect width="1280" height="640" fill="url(#s-glow)"/>
+  <rect x="8" y="8" width="1264" height="624" rx="28" fill="none" stroke="#F59E0B" stroke-opacity="0.20" stroke-width="2"/>
+
+  <!-- Gate mark -->
+  <g transform="translate(120,180) scale(2.1)">
+    <rect x="0" y="0" width="128" height="128" rx="28" fill="#0E1626"/>
+    <rect x="0.75" y="0.75" width="126.5" height="126.5" rx="27.25" fill="none" stroke="#F59E0B" stroke-opacity="0.3" stroke-width="1.5"/>
+    <path d="M28 46 C28 24 46 14 64 14 C82 14 100 24 100 46" fill="none" stroke="url(#s-gold)" stroke-opacity="0.55" stroke-width="3.5" stroke-linecap="round"/>
+    <g fill="url(#s-gold)">
+      <rect x="27" y="40" width="74" height="8" rx="2.5"/>
+      <rect x="29" y="59" width="70" height="7" rx="2"/>
+      <rect x="29" y="76" width="70" height="7" rx="2"/>
+      <path d="M32 48h8v44l-4 8-4-8z"/>
+      <path d="M46 48h8v44l-4 8-4-8z"/>
+      <path d="M60 48h8v44l-4 8-4-8z"/>
+      <path d="M74 48h8v44l-4 8-4-8z"/>
+      <path d="M88 48h8v44l-4 8-4-8z"/>
+    </g>
+  </g>
+
+  <!-- Wordmark + slogan -->
+  <text x="470" y="300" font-family="'SFMono-Regular','JetBrains Mono','DejaVu Sans Mono',ui-monospace,monospace" font-size="120" font-weight="700" letter-spacing="-4" fill="url(#s-word)">portcullis</text>
+  <rect x="474" y="326" width="220" height="6" rx="3" fill="url(#s-gold)"/>
+  <text x="474" y="392" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="40" font-weight="600" fill="#FCD34D">Lower the gate on untrusted tools.</text>
+  <text x="476" y="440" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="26" fill="#94A3B8">The open-source MCP gateway for untrusted tools.</text>
+
+  <!-- Feature chips -->
+  <g font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="22" font-weight="600">
+    <g>
+      <rect x="474" y="486" width="196" height="44" rx="22" fill="#111C30" stroke="#F59E0B" stroke-opacity="0.35"/>
+      <text x="572" y="514" fill="#E2E8F0" text-anchor="middle">Never executes tools</text>
+    </g>
+    <g>
+      <rect x="686" y="486" width="150" height="44" rx="22" fill="#111C30" stroke="#F59E0B" stroke-opacity="0.35"/>
+      <text x="761" y="514" fill="#E2E8F0" text-anchor="middle">Apache-2.0</text>
+    </g>
+    <g>
+      <rect x="852" y="486" width="176" height="44" rx="22" fill="#111C30" stroke="#F59E0B" stroke-opacity="0.35"/>
+      <text x="940" y="514" fill="#E2E8F0" text-anchor="middle">p99 ≤ 5 ms added</text>
+    </g>
+  </g>
+</svg>

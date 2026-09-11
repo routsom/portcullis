@@ -1,0 +1,26 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="portcullis">
+  <defs>
+    <linearGradient id="fav-bg" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="fav-gold" x1="64" y1="34" x2="64" y2="108" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FCD34D"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="124" height="124" rx="26" fill="url(#fav-bg)"/>
+
+  <!-- Simplified, bolder gate for small sizes: top beam, 2 cross-bars,
+       4 pointed bars. No thin arch (it disappears below ~24px). -->
+  <g fill="url(#fav-gold)">
+    <rect x="22" y="34" width="84" height="11" rx="3"/>
+    <rect x="24" y="58" width="80" height="10" rx="3"/>
+    <rect x="24" y="80" width="80" height="10" rx="3"/>
+    <path d="M29 45h11v50l-5.5 9-5.5-9z"/>
+    <path d="M46.5 45h11v50l-5.5 9-5.5-9z"/>
+    <path d="M70.5 45h11v50l-5.5 9-5.5-9z"/>
+    <path d="M88 45h11v50l-5.5 9-5.5-9z"/>
+  </g>
+</svg>

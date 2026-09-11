@@ -1,0 +1,40 @@
+[package]
+name = "pc-runner"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "portcullis runner: sandbox supervisor and isolation backends. One process per invocation; rootless, seccomp, landlock, no ambient network or host credentials."
+
+# pc-runner is the ONE crate permitted `unsafe`, and only in the confined
+# syscall layer (`isolate::sys`). We therefore do not inherit the workspace
+# `forbid(unsafe_code)`; we `deny` it and grant a scoped `#[allow]` with a
+# `// SAFETY:` note on each block (CLAUDE.md §4).
+[lints.rust]
+unsafe_code = "deny"
+missing_debug_implementations = "warn"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+module_name_repetitions = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+
+[dependencies]
+pc-core = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+
+# Linux-only isolation backends. Absent on other platforms, where the runner
+# reports `Unsupported` (see `isolate::unsupported`).
+[target.'cfg(target_os = "linux")'.dependencies]
+nix = { version = "0.29", features = ["user", "mount", "sched", "process", "fs", "signal", "hostname"] }
+landlock = "0.4"
+seccompiler = "0.5"
+libc = "0.2"
+
+[dev-dependencies]
+tempfile = "3"

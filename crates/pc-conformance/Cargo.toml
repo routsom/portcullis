@@ -1,0 +1,20 @@
+[package]
+name = "pc-conformance"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "MCP spec conformance suite: runnable checks across supported protocol revisions."
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "pc-conformance"
+path = "src/main.rs"
+
+[dependencies]
+pc-proto-mcp = { workspace = true }
+serde_json = { workspace = true }

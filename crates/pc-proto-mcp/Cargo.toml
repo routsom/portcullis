@@ -1,0 +1,21 @@
+[package]
+name = "pc-proto-mcp"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+description = "MCP wire codec and protocol-version negotiation. Isolated so a spec revision touches one crate."
+
+[lints]
+workspace = true
+
+[dependencies]
+pc-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }

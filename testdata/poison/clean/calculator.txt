@@ -1,0 +1,1 @@
+Evaluates a basic arithmetic expression such as "2 + 2 * 3" and returns the numeric result. Supports +, -, *, /, and parentheses.

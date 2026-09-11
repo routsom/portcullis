@@ -1,0 +1,123 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/pc-core",
+    "crates/pc-proto-mcp",
+    "crates/pc-edge",
+    "crates/pc-broker",
+    "crates/pc-runner",
+    "crates/pc-policy",
+    "crates/pc-audit",
+    "crates/pc-catalog",
+    "crates/pc-proto-openapi",
+    "crates/pc-facade",
+    "crates/pc-state",
+    "crates/pc-conformance",
+    "crates/pc-cli",
+    "xtask",
+    "bench/latency",
+]
+
+[workspace.package]
+version = "0.0.0"
+edition = "2024"
+rust-version = "1.85"
+license = "Apache-2.0"
+repository = "https://github.com/routsom/portcullis"
+authors = ["The portcullis authors"]
+
+[workspace.dependencies]
+# in-repo (versions pinned so they are not seen as wildcard deps)
+pc-core = { path = "crates/pc-core", version = "0.0.0" }
+pc-proto-mcp = { path = "crates/pc-proto-mcp", version = "0.0.0" }
+pc-edge = { path = "crates/pc-edge", version = "0.0.0" }
+pc-broker = { path = "crates/pc-broker", version = "0.0.0" }
+pc-runner = { path = "crates/pc-runner", version = "0.0.0" }
+pc-policy = { path = "crates/pc-policy", version = "0.0.0" }
+pc-audit = { path = "crates/pc-audit", version = "0.0.0" }
+pc-catalog = { path = "crates/pc-catalog", version = "0.0.0" }
+pc-proto-openapi = { path = "crates/pc-proto-openapi", version = "0.0.0" }
+pc-facade = { path = "crates/pc-facade", version = "0.0.0" }
+pc-state = { path = "crates/pc-state", version = "0.0.0" }
+pc-conformance = { path = "crates/pc-conformance", version = "0.0.0" }
+
+# serde / encoding
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["raw_value"] }
+serde_ignored = "0.1"
+toml = "0.8"
+hex = "0.4"
+httpdate = "1"
+
+# errors / logging
+thiserror = "2"
+anyhow = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+# async runtime / net
+tokio = { version = "1", features = [
+    "rt-multi-thread",
+    "net",
+    "io-util",
+    "io-std",
+    "macros",
+    "sync",
+    "time",
+    "signal",
+] }
+axum = "0.8"
+reqwest = { version = "0.12", default-features = false, features = [
+    "stream",
+    "http2",
+    "charset",
+] }
+bytes = "1"
+futures = "0.3"
+
+# crypto (signing only in M0; no secrets brokered yet - Directive #2)
+blake3 = "1"
+hmac = "0.12"
+sha2 = "0.10"
+subtle = "2"
+getrandom = "0.2"
+chacha20poly1305 = "0.10"
+argon2 = "0.5"
+zeroize = { version = "1", features = ["derive"] }
+ipnet = "2"
+
+# cli
+clap = { version = "4", features = ["derive"] }
+
+# dev
+proptest = "1"
+
+# The pedantic lint set is enabled workspace-wide (CLAUDE.md §11). The allow-list
+# is deliberately short and each entry is justified; do not extend without cause.
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[workspace.lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+# Modules frequently share a name with their primary type in this codebase
+# (e.g. `capability::Capability`); the lint is noise here.
+module_name_repetitions = "allow"
+# We return rich domain errors; forcing `# Errors` docs on every fn is churn for
+# an early-stage codebase. Revisit before 1.0.
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+# Domain acronyms (OpenAPI, OTel, RBAC, IMDS, …) trip this constantly; the
+# false-positive rate is not worth backticking every acronym in prose.
+doc_markdown = "allow"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+strip = true
+
+# The reference benchmark must measure a realistic binary.
+[profile.bench]
+lto = "thin"
+codegen-units = 1
