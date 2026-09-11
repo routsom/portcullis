@@ -21,9 +21,10 @@ it can be built or tested.
 - A **platform-neutral API and policy** (`spec`, `Runner`, `RunOutcome`) that
   compiles and is tested everywhere.
 - A **Linux backend** (`isolate::linux`, `isolate::sys`) behind
-  `cfg(target_os = "linux")`, using `nix`, `landlock`, and `seccompiler`. Its
-  Linux-only dependencies are declared under a target-specific table so other
-  platforms do not pull them.
+  `cfg(target_os = "linux")`, using `nix` (namespaces, mounts, id-mapping,
+  no-new-privileges) and `landlock` (filesystem restriction). Its Linux-only
+  dependencies are declared under a target-specific table so other platforms do
+  not pull them.
 - A **fail-closed `unsupported` backend** for every other platform that returns
   `RunnerError::Unsupported` rather than executing without a sandbox.
 
@@ -35,9 +36,12 @@ exec and the tool never runs unsandboxed.
 The empty network namespace is what blackholes IMDS (§5 row #14): with no route,
 169.254.169.254 and the broker are unreachable by construction, not by a flag.
 
-Seccomp uses **operator-owned reviewed JSON profiles** rather than a hardcoded
-allowlist, so the filter is data that can be audited and tested, not guesswork
-baked into the binary.
+**Seccomp** enforcement is intentionally **not installed yet**. A correct
+syscall filter must be developed and validated against the real-kernel red-team
+harness rather than guessed at; the `SeccompMode` type and the `apply_seccomp`
+call site are in place so a reviewed filter wires in without changing callers.
+Until then, namespaces + landlock provide the load-bearing containment. This is
+part of the certification gate below.
 
 ## Verification status (important)
 

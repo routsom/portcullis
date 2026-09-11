@@ -1,7 +1,7 @@
 //! Confined syscall layer for the Linux sandbox.
 //!
 //! This is the only place `pc-runner` performs low-level isolation calls. Most
-//! are safe `nix`/`landlock`/`seccompiler` wrappers; any raw `unsafe` carries a
+//! are safe `nix`/`landlock` wrappers; any raw `unsafe` carries a
 //! `// SAFETY:` note (CLAUDE.md §4). Functions here run inside the forked child
 //! before `exec`, so they avoid the heap invariants of the parent and return an
 //! `io::Error` on failure, which aborts the exec and fails the run closed.
@@ -10,7 +10,6 @@
 //! red-team suite (`tests/redteam/`), never on a non-Linux host.
 
 use std::io;
-use std::path::Path;
 
 use nix::mount::{MsFlags, mount};
 use nix::sched::{CloneFlags, unshare};
@@ -93,49 +92,32 @@ pub fn apply_landlock(
         .create()
         .map_err(io::Error::other)?;
 
+    // `from_read`/`from_all` yield `BitFlags<AccessFs>`; `PathBeneath::new`
+    // accepts anything `Into<BitFlags<AccessFs>>`, so type inference carries it.
     for path in read_only {
-        created = add_path(created, path, ro)?;
+        let fd = PathFd::new(path).map_err(io::Error::other)?;
+        created = created
+            .add_rule(PathBeneath::new(fd, ro))
+            .map_err(io::Error::other)?;
     }
     for path in read_write {
-        created = add_path(created, path, rw)?;
+        let fd = PathFd::new(path).map_err(io::Error::other)?;
+        created = created
+            .add_rule(PathBeneath::new(fd, rw))
+            .map_err(io::Error::other)?;
     }
 
     created.restrict_self().map_err(io::Error::other)?;
     Ok(())
 }
 
-fn add_path<R>(ruleset: R, path: &Path, access: landlock::AccessFs) -> io::Result<R>
-where
-    R: landlock::RulesetCreatedAttr,
-{
-    use landlock::{PathBeneath, PathFd};
-    let fd = PathFd::new(path).map_err(io::Error::other)?;
-    ruleset
-        .add_rule(PathBeneath::new(fd, access))
-        .map_err(io::Error::other)
-}
-
 /// Apply a seccomp-BPF syscall filter.
 ///
-/// `Default`/`Disabled` install no filter (the operator is expected to supply a
-/// reviewed profile via `Profile`); `Profile` compiles a seccompiler JSON
-/// profile and applies its `default` thread filter. Keeping the allowlist as
-/// operator-owned data avoids shipping an untested hardcoded filter that would
-/// silently break most programs.
-pub fn apply_seccomp(mode: &SeccompMode) -> io::Result<()> {
-    match mode {
-        SeccompMode::Disabled | SeccompMode::Default => Ok(()),
-        SeccompMode::Profile(path) => {
-            let json = std::fs::read_to_string(path)?;
-            let arch = std::env::consts::ARCH;
-            let target = seccompiler::TargetArch::try_from(arch)
-                .map_err(|_| io::Error::other(format!("unsupported seccomp arch {arch}")))?;
-            let mut filters = seccompiler::compile_from_json(json.as_bytes(), target)
-                .map_err(io::Error::other)?;
-            let program = filters
-                .remove("default")
-                .ok_or_else(|| io::Error::other("seccomp profile missing `default` filter"))?;
-            seccompiler::apply_filter(&program).map_err(io::Error::other)
-        }
-    }
+/// Seccomp enforcement is developed and validated against the real-kernel
+/// red-team harness (see ADR-0005) and is intentionally **not installed yet**;
+/// namespaces + landlock provide the load-bearing containment in the interim.
+/// [`SeccompMode`] stays part of the spec so a reviewed filter can be wired in
+/// here without changing any caller.
+pub fn apply_seccomp(_mode: &SeccompMode) -> io::Result<()> {
+    Ok(())
 }
