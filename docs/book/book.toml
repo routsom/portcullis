@@ -15,7 +15,7 @@ site-url = "/portcullis/"
 # Powers the GitHub icon and the "edit this page" pencil in the docs header.
 git-repository-url = "https://github.com/routsom/portcullis"
 edit-url-template = "https://github.com/routsom/portcullis/edit/main/docs/book/{path}"
-additional-css = []
+additional-css = ["theme/custom.css"]
 
 [output.html.fold]
 enable = true

@@ -1,0 +1,89 @@
+<svg width="960" height="580" viewBox="0 0 960 580" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="Inter, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="a-bg" x1="0" y1="0" x2="960" y2="580" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A111E"/><stop offset="1" stop-color="#0E1930"/>
+    </linearGradient>
+    <linearGradient id="a-edge" x1="180" y1="150" x2="180" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#15233b"/><stop offset="1" stop-color="#111d31"/>
+    </linearGradient>
+    <filter id="a-sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+    <marker id="a-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#F59E0B"/>
+    </marker>
+    <marker id="a-arrow-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="580" rx="18" fill="url(#a-bg)"/>
+
+  <!-- ===== connectors (drawn first, behind boxes) ===== -->
+  <!-- client -> edge -->
+  <path d="M440 96 L440 146" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#a-arrow)"/>
+  <!-- edge -> upstream -->
+  <path d="M700 232 L744 232" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#a-arrow)"/>
+  <!-- edge -> broker -->
+  <path d="M300 300 L250 372" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#a-arrow)"/>
+  <!-- edge -> runner -->
+  <path d="M560 300 L640 372" stroke="#F59E0B" stroke-width="2.5" marker-end="url(#a-arrow)"/>
+  <!-- runner X broker (isolation) -->
+  <path d="M470 452 L378 452" stroke="#ef4444" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#a-arrow-r)"/>
+
+  <!-- connector labels -->
+  <g font-size="12.5" fill="#9fb0c6">
+    <text x="452" y="126">MCP · stdio | HTTP</text>
+    <text x="712" y="222">HTTP</text>
+    <text x="150" y="352">loopback · mTLS</text>
+    <text x="566" y="352">1 process / call</text>
+    <text x="386" y="446" fill="#f0a3a3">no access</text>
+  </g>
+
+  <!-- ===== boxes ===== -->
+  <!-- Agent client -->
+  <g filter="url(#a-sh)">
+    <rect x="340" y="34" width="200" height="62" rx="14" fill="#131f33" stroke="#2a3a55" stroke-width="1.2"/>
+  </g>
+  <text x="440" y="62" text-anchor="middle" font-size="19" font-weight="700" fill="#eef4fb">Agent client</text>
+  <text x="440" y="82" text-anchor="middle" font-size="12" fill="#8ea1ba">agents, IDEs, other gateways</text>
+
+  <!-- portcullis-edge (primary) -->
+  <g filter="url(#a-sh)">
+    <rect x="180" y="150" width="520" height="150" rx="16" fill="url(#a-edge)" stroke="#F59E0B" stroke-opacity="0.55" stroke-width="1.6"/>
+  </g>
+  <text x="205" y="186" font-size="22" font-weight="800" fill="#ffffff">portcullis-edge</text>
+  <text x="205" y="208" font-size="12.5" fill="#93a4bd">Rust · forbid(unsafe) · never executes tool logic in-process</text>
+  <text x="205" y="242" font-size="14.5" font-weight="600" fill="#FCD34D">auth · origin checks · policy · rate limits · circuit breakers · audit · metrics</text>
+  <text x="205" y="270" font-size="12.5" fill="#93a4bd">routes and relays streaming responses — holds no upstream credentials</text>
+
+  <!-- Upstream -->
+  <g filter="url(#a-sh)">
+    <rect x="744" y="200" width="196" height="64" rx="14" fill="#131f33" stroke="#2a3a55" stroke-width="1.2"/>
+  </g>
+  <text x="842" y="228" text-anchor="middle" font-size="17" font-weight="700" fill="#eef4fb">Upstream MCP</text>
+  <text x="842" y="248" text-anchor="middle" font-size="12" fill="#8ea1ba">tool server · REST · gRPC</text>
+
+  <!-- Broker -->
+  <g filter="url(#a-sh)">
+    <rect x="120" y="374" width="258" height="120" rx="16" fill="#131f33" stroke="#3ba776" stroke-opacity="0.5" stroke-width="1.4"/>
+  </g>
+  <text x="142" y="406" font-size="18" font-weight="700" fill="#eef4fb">portcullis-broker</text>
+  <text x="142" y="430" font-size="12.5" fill="#93a4bd">secrets (encrypted at rest)</text>
+  <text x="142" y="450" font-size="12.5" fill="#93a4bd">short-lived credential tokens</text>
+  <text x="142" y="470" font-size="12.5" fill="#93a4bd">egress allowlist · IMDS blackhole</text>
+
+  <!-- Runner -->
+  <g filter="url(#a-sh)">
+    <rect x="470" y="374" width="370" height="120" rx="16" fill="#131f33" stroke="#6d8bf0" stroke-opacity="0.5" stroke-width="1.4"/>
+  </g>
+  <text x="492" y="406" font-size="18" font-weight="700" fill="#eef4fb">portcullis-runner <tspan fill="#8ea1ba" font-size="12" font-weight="500">(Linux)</tspan></text>
+  <text x="492" y="430" font-size="12.5" fill="#93a4bd">one sandboxed process per invocation</text>
+  <text x="492" y="450" font-size="12.5" fill="#93a4bd">user/mount/net namespaces · seccomp · landlock</text>
+  <text x="492" y="470" font-size="12.5" fill="#93a4bd">no network · no ambient host credentials</text>
+
+  <!-- Containment caption -->
+  <text x="480" y="536" text-anchor="middle" font-size="13" fill="#7f92ab">
+    Compromise of the edge <tspan fill="#cdd8e6">or</tspan> the runner alone is contained: the edge holds no secrets, the runner cannot reach the broker.
+  </text>
+</svg>

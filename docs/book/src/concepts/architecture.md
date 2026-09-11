@@ -1,25 +1,9 @@
 # Architecture
 
-```
- agent client
-      │  MCP (stdio | Streamable HTTP)
-      ▼
-┌──────────────────────────────────────────────┐
-│ portcullis-edge  (Rust, tokio, forbid unsafe) │
-│  auth · origin checks · policy · limits ·     │
-│  breakers · audit · routing · relay           │
-└──────┬──────────────────────────┬─────────────┘
-       │ (loopback, mTLS)          │ HTTP
-       ▼                           ▼
-┌───────────────┐          upstream MCP server
-│ portcullis-   │
-│ broker        │   ┌──────────────────────────┐
-│ secrets ·     │   │ portcullis-runner (Linux) │
-│ tokens ·      │   │ one process per call ·    │
-│ egress        │   │ userns/seccomp/landlock · │
-└───────────────┘   │ no net, no host creds     │
-                    └──────────────────────────┘
-```
+<figure class="pc-figure">
+  <img src="../img/architecture.svg" alt="portcullis process model: agent client to edge to upstream, with an isolated broker and runner">
+  <figcaption>The process model. The edge decides and routes; execution and secrets are separated into the runner and the broker.</figcaption>
+</figure>
 
 The edge holds no upstream credentials and cannot spawn a process (enforced by
 the `deny-imports` check). The runner cannot read the secret store. Compromise of

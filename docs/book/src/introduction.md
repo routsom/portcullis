@@ -1,4 +1,6 @@
-# portcullis
+<img class="pc-hero" src="./img/banner.svg" alt="portcullis — lower the gate on untrusted tools">
+
+# Introduction
 
 > The MCP gateway you can put in front of untrusted tools and still sleep at
 > night — one statically-linked binary, no Kubernetes, no Redis, no sales call.
