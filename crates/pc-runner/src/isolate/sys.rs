@@ -74,6 +74,8 @@ pub fn make_filesystem_readonly() -> io::Result<()> {
 
 /// Restrict filesystem access with landlock to only the declared paths.
 /// Unlisted paths become inaccessible even though the mount is present.
+// `ro`/`rw` are the conventional names for read vs read-write access sets.
+#[allow(clippy::similar_names)]
 pub fn apply_landlock(
     read_only: &[std::path::PathBuf],
     read_write: &[std::path::PathBuf],
@@ -118,6 +120,9 @@ pub fn apply_landlock(
 /// namespaces + landlock provide the load-bearing containment in the interim.
 /// [`SeccompMode`] stays part of the spec so a reviewed filter can be wired in
 /// here without changing any caller.
+// Keeps the uniform `io::Result` syscall-helper signature so the real filter
+// wires in (and can fail) without touching the `pre_exec` call site.
+#[allow(clippy::unnecessary_wraps)]
 pub fn apply_seccomp(_mode: &SeccompMode) -> io::Result<()> {
     Ok(())
 }
