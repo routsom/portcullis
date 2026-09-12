@@ -18,7 +18,8 @@ This is Linux kernel machinery with no portable equivalent. On other platforms
 the runner returns `Unsupported` and **fails closed** — it never runs a tool
 without a sandbox.
 
-**Verification status.** The Linux backend is verified only in Linux CI and the
-red-team escape suite. The known gap before certification is a `clone`-based
-launcher for a correct PID namespace. See
-[ADR-0005](../project/adrs.md).
+:::caution[Verification status]
+The Linux backend is verified only in Linux CI and the red-team escape suite. The
+known gap before certification is a `clone`-based launcher for a correct PID
+namespace. See [ADR-0005](../project/adrs.md).
+:::

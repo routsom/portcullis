@@ -99,9 +99,11 @@ portcullis doctor
 healthy (warnings are non-fatal)
 ```
 
-> The two warnings are expected here: no shared session key (fine for one node),
-> and no Linux sandbox on macOS. `echo reachable (501)` is normal - the echo
-> server only answers `POST`, and any HTTP response proves connectivity.
+:::note
+The two warnings are expected here: no shared session key (fine for one node),
+and no Linux sandbox on macOS. `echo reachable (501)` is normal — the echo
+server only answers `POST`, and any HTTP response proves connectivity.
+:::
 
 ## 5. Run the gateway
 
