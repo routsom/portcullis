@@ -4,6 +4,11 @@ Policy is ordered, fail-closed RBAC/ABAC. The first matching rule decides; no
 match denies. Rules match on tenant, principal, **roles** (RBAC), capability
 globs, delegation-chain depth, and **attribute predicates** (ABAC).
 
+<figure class="pc-figure">
+  <img src="../img/request-lifecycle.svg" alt="the request lifecycle through the edge, from origin check to audit">
+  <figcaption>The request lifecycle. <strong>Policy</strong> is stage 5 — evaluated fail-closed after rate limiting, before the upstream is ever touched.</figcaption>
+</figure>
+
 ```toml
 [[policy.rules]]
 id = "deny-destructive"

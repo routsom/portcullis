@@ -1,5 +1,10 @@
 # Rate limits & circuit breakers
 
+<figure class="pc-figure">
+  <img src="../img/request-lifecycle.svg" alt="the request lifecycle through the edge, from origin check to audit">
+  <figcaption>The request lifecycle. <strong>Rate limiting</strong> (stage 4) and the <strong>circuit breaker</strong> (stage 6) bracket the policy decision; both are skipped when unconfigured, so the passthrough path stays fast.</figcaption>
+</figure>
+
 **Rate limiting** is a token bucket per `(tenant, principal, capability)`:
 
 ```toml
