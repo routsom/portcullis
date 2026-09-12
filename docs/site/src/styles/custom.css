@@ -1,0 +1,44 @@
+/* portcullis brand layer over Starlight. No external font fetch (fast). */
+:root {
+  --sl-color-accent-low: #3d2708;
+  --sl-color-accent: #f59e0b;
+  --sl-color-accent-high: #fcd34d;
+}
+/* Warm the dark background very slightly toward the brand slate. */
+:root[data-theme='dark'] {
+  --sl-color-bg: #0b1220;
+  --sl-color-bg-nav: #0a101c;
+  --sl-color-bg-sidebar: #0a101c;
+}
+
+/* Hero banner on the landing page. */
+.pc-hero {
+  display: block;
+  width: 100%;
+  max-width: 760px;
+  margin: 0.25rem auto 2rem;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, #f59e0b 24%, transparent);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+}
+
+/* Diagrams as figures with captions. */
+.pc-figure { margin: 2rem 0; text-align: center; }
+.pc-figure img {
+  width: 100%;
+  max-width: 820px;
+  border-radius: 12px;
+  border: 1px solid var(--sl-color-gray-5);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.32);
+}
+.pc-figure figcaption {
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-sm);
+  margin-top: 0.7rem;
+}
+
+/* Amber accent underline under section headings, brand-consistent. */
+.sl-markdown-content h2 {
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid color-mix(in srgb, #f59e0b 22%, transparent);
+}

@@ -60,10 +60,10 @@ fuzz target:
 conformance:
     cargo run -q -p pc-conformance
 
-# Build the documentation site (requires mdbook: `cargo install mdbook`).
+# Build the documentation site (Astro Starlight).
 docs:
-    mdbook build docs/book
+    cd docs/site && npm ci && npm run build
 
 # Serve the docs locally with live reload.
 docs-serve:
-    mdbook serve docs/book --open
+    cd docs/site && npm install && npm run dev

@@ -1,0 +1,37 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="portcullis logo">
+  <defs>
+    <linearGradient id="pc-bg" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="pc-gold" x1="64" y1="20" x2="64" y2="108" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FCD34D"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+    <filter id="pc-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Badge -->
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#pc-bg)"/>
+  <rect x="4.75" y="4.75" width="118.5" height="118.5" rx="27.25" fill="none" stroke="#F59E0B" stroke-opacity="0.25" stroke-width="1.5"/>
+
+  <!-- Castle arch, drawn as an outline framing the gate -->
+  <path d="M28 46 C28 24 46 14 64 14 C82 14 100 24 100 46" fill="none" stroke="url(#pc-gold)" stroke-opacity="0.55" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Portcullis gate -->
+  <g fill="url(#pc-gold)" filter="url(#pc-shadow)">
+    <!-- Top beam -->
+    <rect x="27" y="40" width="74" height="8" rx="2.5"/>
+    <!-- Horizontal cross-bars -->
+    <rect x="29" y="59" width="70" height="7" rx="2"/>
+    <rect x="29" y="76" width="70" height="7" rx="2"/>
+    <!-- Vertical bars with pointed spikes -->
+    <path d="M32 48h8v44l-4 8-4-8z"/>
+    <path d="M46 48h8v44l-4 8-4-8z"/>
+    <path d="M60 48h8v44l-4 8-4-8z"/>
+    <path d="M74 48h8v44l-4 8-4-8z"/>
+    <path d="M88 48h8v44l-4 8-4-8z"/>
+  </g>
+</svg>

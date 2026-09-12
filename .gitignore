@@ -3,9 +3,12 @@
 *.pdb
 .DS_Store
 
-# mdBook build output
-/docs/book/book/
 
 # Runtime artifacts
 *.jsonl
 *.tmp
+
+# Astro / Starlight docs site
+docs/site/node_modules/
+docs/site/dist/
+docs/site/.astro/
