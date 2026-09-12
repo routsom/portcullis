@@ -1,4 +1,13 @@
-/* portcullis brand layer over Starlight. No external font fetch (fast). */
+/* portcullis brand layer over Starlight.
+   Fonts are self-hosted via @fontsource (bundled into the site as woff2), so
+   there are no external font requests. */
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/jetbrains-mono/wght.css';
+
+:root {
+  --sl-font: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --sl-font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
 
 /* Dark theme (the default): bright amber on slate. */
 :root,
