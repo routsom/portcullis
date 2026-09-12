@@ -1,0 +1,71 @@
+---
+title: portcullis
+description: The open-source MCP gateway you can put in front of untrusted tools — identity, isolation, audit, and protocol translation in one Apache-2.0 binary.
+template: splash
+hero:
+  title: portcullis
+  tagline: Lower the gate on untrusted tools. An open-source MCP gateway with identity, isolation, audit, and protocol translation — in one Apache-2.0 binary, no enterprise tier.
+  image:
+    file: ../../assets/logo.svg
+  actions:
+    - text: Get started
+      link: /portcullis/getting-started/install/
+      icon: right-arrow
+      variant: primary
+    - text: Your first server
+      link: /portcullis/getting-started/first-server/
+      icon: right-arrow
+      variant: secondary
+    - text: View on GitHub
+      link: https://github.com/routsom/portcullis
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+**portcullis** sits between agent clients and tool servers and provides identity,
+authorization, sandboxed execution, auditing, and protocol translation — without
+adding meaningful latency, without an enterprise paywall, and **without ever
+executing tool logic in its own process**.
+
+## Why portcullis
+
+<CardGrid>
+  <Card title="Nothing executes in the gateway" icon="star">
+    The edge parses, decides, routes, and logs. Tools run in a separate,
+    sandboxed process (uid, seccomp, landlock, no network). A prompt injection
+    can't turn the gateway into a shell — there is none.
+  </Card>
+  <Card title="All Apache-2.0, no enterprise tier" icon="approve-check">
+    SSO, RBAC, DLP, audit, rate limiting, and multi-tenancy are core features. A
+    build-time check enforces that nothing is gated on a licence.
+  </Card>
+  <Card title="Latency is a hard budget" icon="rocket">
+    p99 ≤ 5 ms of gateway-added overhead, gated in CI. The passthrough path never
+    fully deserializes payloads.
+  </Card>
+  <Card title="Zero required infrastructure" icon="setting">
+    One binary runs on a laptop and in production. Postgres, Redis, Vault, and
+    OIDC are optional integrations, never prerequisites.
+  </Card>
+</CardGrid>
+
+## Explore the docs
+
+<CardGrid>
+  <LinkCard title="Install &amp; first run" href="/portcullis/getting-started/install/" description="Build it, check it with doctor, run it." />
+  <LinkCard title="Your first proxied server" href="/portcullis/getting-started/first-server/" description="A five-minute walkthrough with real, verified output." />
+  <LinkCard title="Architecture" href="/portcullis/concepts/architecture/" description="The edge, broker, and runner — and how compromise is contained." />
+  <LinkCard title="Security model" href="/portcullis/security/model/" description="What's enforced, what's CI-gated, and what's not yet." />
+  <LinkCard title="Authorization policy" href="/portcullis/operations/policy/" description="RBAC/ABAC in the request lifecycle." />
+  <LinkCard title="Roadmap" href="/portcullis/project/roadmap/" description="Milestones M0–M6, done and planned." />
+</CardGrid>
+
+:::caution[A note on trust]
+portcullis is security-critical infrastructure. The Linux sandbox is verified in
+CI on a real kernel, not on a developer's laptop, and — like any gateway fronting
+untrusted tools — should pass an independent security review before you rely on
+it in production. The [security model](/portcullis/security/model/) states plainly
+what is enforced and what is not yet.
+:::

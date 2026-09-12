@@ -1,0 +1,46 @@
+<svg width="960" height="260" viewBox="0 0 960 260" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="portcullis - lower the gate on untrusted tools">
+  <defs>
+    <linearGradient id="b-bg" x1="0" y1="0" x2="960" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#111C30"/>
+    </linearGradient>
+    <linearGradient id="b-gold" x1="0" y1="0" x2="0" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FCD34D"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="b-word" x1="300" y1="90" x2="300" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#CBD5E1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="260" rx="24" fill="url(#b-bg)"/>
+  <rect x="0.75" y="0.75" width="958.5" height="258.5" rx="23.25" fill="none" stroke="#F59E0B" stroke-opacity="0.18" stroke-width="1.5"/>
+
+  <!-- Gate mark -->
+  <g transform="translate(56,66) scale(1.0)">
+    <rect x="0" y="0" width="128" height="128" rx="28" fill="#0E1626"/>
+    <rect x="0.75" y="0.75" width="126.5" height="126.5" rx="27.25" fill="none" stroke="#F59E0B" stroke-opacity="0.3" stroke-width="1.5"/>
+    <path d="M28 46 C28 24 46 14 64 14 C82 14 100 24 100 46" fill="none" stroke="url(#b-gold)" stroke-opacity="0.55" stroke-width="3.5" stroke-linecap="round"/>
+    <g fill="url(#b-gold)">
+      <rect x="27" y="40" width="74" height="8" rx="2.5"/>
+      <rect x="29" y="59" width="70" height="7" rx="2"/>
+      <rect x="29" y="76" width="70" height="7" rx="2"/>
+      <path d="M32 48h8v44l-4 8-4-8z"/>
+      <path d="M46 48h8v44l-4 8-4-8z"/>
+      <path d="M60 48h8v44l-4 8-4-8z"/>
+      <path d="M74 48h8v44l-4 8-4-8z"/>
+      <path d="M88 48h8v44l-4 8-4-8z"/>
+    </g>
+  </g>
+
+  <!-- Wordmark + slogan -->
+  <g font-family="'SFMono-Regular', 'JetBrains Mono', 'DejaVu Sans Mono', ui-monospace, monospace">
+    <text x="236" y="124" font-size="76" font-weight="700" fill="url(#b-word)" letter-spacing="-2">portcullis</text>
+  </g>
+  <rect x="240" y="140" width="150" height="4" rx="2" fill="url(#b-gold)"/>
+  <g font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+    <text x="240" y="176" font-size="27" font-weight="600" fill="#FCD34D">Lower the gate on untrusted tools.</text>
+    <text x="240" y="208" font-size="16" fill="#94A3B8">Apache-2.0 · identity · isolation · audit · one binary · no enterprise tier</text>
+  </g>
+</svg>
